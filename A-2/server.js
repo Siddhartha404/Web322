@@ -9,61 +9,72 @@
 *  Name: Siddhartha Thapa Chhetri Student ID: 147913222 Date: 2024/06/04
 *
 ********************************************************************************/
-const legoData = require("./modules/legoSets");
 const express = require('express');
+const path = require('path');
+const legoData = require('./modules/legoSets');
 
 const app = express();
 const PORT = process.env.PORT || 3000;
 
-legoData.initialize().then(() => {
-    // Start the server
+// Serve static files from the "public" directory
+app.use(express.static('public'));
+
+// Initialize legoData and start the server
+legoData.initialize()
+  .then(() => {
     app.listen(PORT, () => {
-        console.log(`Server is running on port ${PORT}`);
+      console.log(`Server is listening on port ${PORT}`);
     });
-}).catch(err => {
-    console.error('Error initializing Lego data:', err);
-});
+  })
+  .catch((err) => {
+    console.error('Failed to initialize legoData:', err);
+  });
 
-// Route: GET "/"
+// Route for home page
 app.get('/', (req, res) => {
-    res.send(`Assignment 2: Siddhartha Thapa Chhetri - 147913222`);
+  res.sendFile(path.join(__dirname, 'views/home.html'));
 });
 
-// Route: GET "/lego/sets"
+// Route for about page
+app.get('/about', (req, res) => {
+  res.sendFile(path.join(__dirname, 'views/about.html'));
+});
+
+// Route for Lego sets with optional theme query parameter
 app.get('/lego/sets', (req, res) => {
-    legoData.getAllSets()
-        .then(allSets => {
-            res.json(allSets);
-        })
-        .catch(err => {
-            res.status(500).send('Error: ' + err);
-        });
-});
-
-// Route: GET "/lego/sets/num-demo"
-app.get('/lego/sets/num-demo', (req, res) => {
-    const setNum = '001-1'; 
-    legoData.getSetByNum(setNum)
-        .then(set => {
-            if (set) {
-                res.json(set);
-            } else {
-                res.status(404).send('Set not found');
-            }
-        })
-        .catch(err => {
-            res.status(500).send('Error: ' + err);
-        });
-});
-
-// Route: GET "/lego/sets/theme-demo"
-app.get('/lego/sets/theme-demo', (req, res) => {
-    const theme = 'technic'; 
+  const theme = req.query.theme;
+  if (theme) {
     legoData.getSetsByTheme(theme)
-        .then(sets => {
-            res.json(sets);
-        })
-        .catch(err => {
-            res.status(500).send('Error: ' + err);
-        });
+      .then((sets) => {
+        res.json(sets);
+      })
+      .catch((err) => {
+        res.status(404).json({ error: err.message });
+      });
+  } else {
+    legoData.getAllSets()
+      .then((sets) => {
+        res.json(sets);
+      })
+      .catch((err) => {
+        res.status(404).json({ error: err.message });
+      });
+  }
+});
+
+// Route for individual Lego set by set number
+app.get('/lego/sets/:set_num', (req, res) => {
+  const setNum = req.params.set_num;
+  legoData.getSetByNum(setNum)
+    .then((set) => {
+      res.json(set);
+    })
+    .catch((err) => {
+      res.status(404).json({ error: err.message });
+    });
+});
+
+// Route for custom 404 page
+app.use((req, res) => {
+  res.status(404).sendFile(path.join(__dirname, 'views/404.html'));
 });

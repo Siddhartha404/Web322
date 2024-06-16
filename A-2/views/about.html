@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>About</title>
+    <link rel="stylesheet" href="../public/css/main.css">
+    <script src="https://cdn.jsdelivr.net/npm/alpinejs@2.x.x/dist/alpine.min.js" defer></script>
+
+    <body class="bg-gray-100">
+        <nav class="bg-gray-800 text-white p-4 flex justify-between items-center">
+            <a href="/" class="text-xl font-bold">Lego Collection</a>
+            <div class="flex space-x-4">
+                <a href="/about" class="text-white hover:text-gray-400">About</a>
+                <!-- Dropdown menu using Alpine.js -->
+                <div x-data="{ open: false }" @click.away="open = false" class="relative">
+                    <button @click="open = !open" class="dropdown-toggle text-white hover:text-gray-400">Theme</button>
+                    <ul x-show="open" class="dropdown-menu absolute bg-gray-800 text-white py-2 rounded-md shadow-lg mt-2">
+                        <li><a href="/lego/sets?theme=Technic" class="block px-4 py-2 hover:bg-gray-700">Technic</a></li>
+                        <li><a href="/lego/sets?theme=Classic%20Town" class="block px-4 py-2 hover:bg-gray-700">Classic Town</a></li>
+                        <li><a href="/lego/sets?theme=Supplemental" class="block px-4 py-2 hover:bg-gray-700">Supplemental</a></li>
+                    </ul>
+                </div>
+            </div>
+        </nav>
+        <div class="container mx-auto p-4">
+        <div class="hero py-12">
+            <h1 class="text-4xl font-bold">About Me</h1>
+            <p class="text-lg mt-4">All about me, hobbies, and courses.</p>
+        </div>
+        <div class="grid grid-cols-2 gap-4 mt-8">
+            <div>
+                <img src="/img/profile-pic.jpg" alt="Profile Pic" class="rounded-full h-48 w-48 object-cover mx-auto">
+            </div>
+            <div>
+                <p class="text-lg">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Mauris lacinia ante lectus, ac congue sapien aliquet eu.</p>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

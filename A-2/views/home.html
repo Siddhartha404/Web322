@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Lego Collection</title>
     <link rel="stylesheet" href="../public/css/main.css">
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
     <script src="https://cdn.jsdelivr.net/npm/alpinejs@2.x.x/dist/alpine.min.js" defer></script>
 </head>
 <body class="bg-gray-100">
@@ -13,8 +14,8 @@
         <div class="flex space-x-4">
             <a href="/about" class="text-white hover:text-gray-400">About</a>
             <div x-data="{ open: false }" @click.away="open = false" class="relative">
-                <button @click="open = !open" class="dropdown-toggle text-white hover:text-gray-400">Theme</button>
-                <ul x-show="open" class="dropdown-menu absolute bg-gray-800 text-white py-2 rounded-md shadow-lg mt-2">
+                <button @click="open = !open" class="text-white hover:text-gray-400">Theme</button>
+                <ul x-show="open" class="absolute bg-gray-800 text-white py-2 rounded-md shadow-lg mt-2 z-50">
                     <li><a href="/lego/sets?theme=Technic" class="block px-4 py-2 hover:bg-gray-700">Technic</a></li>
                     <li><a href="/lego/sets?theme=Classic%20Town" class="block px-4 py-2 hover:bg-gray-700">Classic Town</a></li>
                     <li><a href="/lego/sets?theme=Supplemental" class="block px-4 py-2 hover:bg-gray-700">Supplemental</a></li>
@@ -23,30 +24,31 @@
         </div>
     </nav>
     <div class="container mx-auto p-4">
-        <div class="hero py-12">
+        <div class="text-center py-12">
             <h1 class="text-4xl font-bold mb-4">Explore Our Lego Collection</h1>
-            <a href="/lego/sets" class="btn">View All Sets</a>
+            <a href="/lego/sets" class="bg-blue-500 text-white py-2 px-4 rounded-md shadow-md hover:bg-blue-600 transition duration-200">View All Sets</a>
         </div>
-        <div class="grid grid-cols-3 gap-4 mt-8">
-\            <div class="card">
-                <img src="https://cdn.rebrickable.com/media/sets/001-1.jpg" alt="Lego Set Image" class="rounded-md mb-2">
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mt-8">
+            <!-- Lego Set Card 1 -->
+            <div class="bg-white rounded-md shadow-md p-4 flex flex-col justify-between">
+                <img src="https://cdn.rebrickable.com/media/sets/001-1.jpg" alt="Lego Set Image" class="h-48 w-full object-cover rounded-md mb-2">
                 <h2 class="text-xl font-semibold">Gears</h2>
                 <p class="text-gray-500">Released in 1965</p>
-                <a href="/lego/sets/001-1" class="btn-outline mt-2">View Details</a>
+                <a href="/lego/sets/001-1" class="border border-blue-500 text-blue-500 py-2 px-4 rounded-md shadow-md hover:bg-blue-50 hover:text-blue-600 transition duration-200 mt-2">View Details</a>
             </div>
-
-            <div class="card">
-                <img src="https://cdn.rebrickable.com/media/sets/002253963-1.jpg" alt="Lego Set Image" class="rounded-md mb-2">
+            <!-- Lego Set Card 2 -->
+            <div class="bg-white rounded-md shadow-md p-4 flex flex-col justify-between">
+                <img src="https://cdn.rebrickable.com/media/sets/002253963-1.jpg" alt="Lego Set Image" class="h-48 w-full object-cover rounded-md mb-2">
                 <h2 class="text-xl font-semibold">Legend of Chima: Corbeaux et Gorilles</h2>
                 <p class="text-gray-500">Released in 2013</p>
-                <a href="/lego/sets/002253963-1" class="btn-outline mt-2">View Details</a>
+                <a href="/lego/sets/002253963-1" class="border border-blue-500 text-blue-500 py-2 px-4 rounded-md shadow-md hover:bg-blue-50 hover:text-blue-600 transition duration-200 mt-2">View Details</a>
             </div>
-
-            <div class="card">
-                <img src="https://cdn.rebrickable.com/media/sets/003-1.jpg" alt="Lego Set Image" class="rounded-md mb-2">
+            <!-- Lego Set Card 3 -->
+            <div class="bg-white rounded-md shadow-md p-4 flex flex-col justify-between">
+                <img src="https://cdn.rebrickable.com/media/sets/003-1.jpg" alt="Lego Set Image" class="h-48 w-full object-cover rounded-md mb-2">
                 <h2 class="text-xl font-semibold">Master Mechanic Set</h2>
                 <p class="text-gray-500">Released in 1966</p>
-                <a href="/lego/sets/003-1" class="btn-outline mt-2">View Details</a>
+                <a href="/lego/sets/003-1" class="border border-blue-500 text-blue-500 py-2 px-4 rounded-md shadow-md hover:bg-blue-50 hover:text-blue-600 transition duration-200 mt-2">View Details</a>
             </div>
         </div>
     </div>

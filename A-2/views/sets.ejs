@@ -1,0 +1,36 @@
+<!-- sets.ejs -->
+<link rel="stylesheet" href="../public/css/main.css">
+<link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+<!-- sets.ejs -->
+
+<%- include('partials/navbar', { page: page }) %>
+
+<div class="container mx-auto my-8">
+    <h1 class="text-3xl font-semibold mb-6">Collection</h1>
+
+    <!-- Hard-coded filter links -->
+    <div class="mb-4 space-x-4">
+        <a href="/lego/sets" class="px-4 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600">All Sets</a>
+        <a href="/lego/sets?theme=Technic" class="px-4 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600">Technic</a>
+        <a href="/lego/sets?theme=Classic Town" class="px-4 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600">Classic Town</a>
+        <a href="/lego/sets?theme=Supplemental" class="px-4 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600">Supplemental</a>
+    </div>
+
+    <!-- Grid layout for sets -->
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        <% sets.forEach(set => { %>
+            <div class="p-4 border rounded-lg">
+                <img src="<%= set.img_url %>" alt="<%= set.name %>" class="rounded-lg mb-4">
+                <h2 class="text-xl font-semibold mb-2"><%= set.name %></h2>
+                <p class="text-gray-600 mb-2">Theme: 
+                    <a href="/lego/sets?theme=<%= encodeURIComponent(set.theme) %>" class="px-4 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600">
+                        <%= set.theme %>
+                    </a>
+                </p>
+                <p class="text-gray-600 mb-2">Year: <%= set.year %></p>
+                <p class="text-gray-600 mb-2">Parts: <%= set.num_parts %></p>
+                <a href="/lego/sets/<%= set.set_num %>" class="px-4 py-2 bg-green-500 text-white rounded-lg hover:bg-green-600">Details</a>
+            </div>
+        <% }); %>
+    </div>
+</div>

@@ -1,3 +1,5 @@
+// modules/legoSets.js
+
 const setData = require("../data/setData.json");
 const themeData = require("../data/themeData.json");
 
@@ -6,12 +8,12 @@ let sets = [];
 function initialize() {
     return new Promise((resolve, reject) => {
         try {
-            setData.forEach(set => {
+            sets = setData.map(set => {
                 const theme = themeData.find(theme => theme.id === set.theme_id);
-                if (theme) {
-                    const setWithTheme = { ...set, theme: theme.name };
-                    sets.push(setWithTheme);
-                }
+                return {
+                    ...set,
+                    theme: theme ? theme.name : "Unknown"
+                };
             });
             resolve();
         } catch (error) {
@@ -19,7 +21,6 @@ function initialize() {
         }
     });
 }
-
 
 function getAllSets() {
     return new Promise((resolve, reject) => {
@@ -54,6 +55,5 @@ function getSetsByTheme(theme) {
         }
     });
 }
-
 
 module.exports = { initialize, getAllSets, getSetByNum, getSetsByTheme };

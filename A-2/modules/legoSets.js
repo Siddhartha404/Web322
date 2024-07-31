@@ -153,6 +153,7 @@ function editSet(set_num, setData) {
         return Promise.reject("Error updating set: " + error.errors[0].message);
     });
 }
+
 // Delete a set by its number
 function deleteSet(setNum) {
     return Set.destroy({
@@ -170,15 +171,14 @@ function deleteSet(setNum) {
     });
 }
 
+// Export functions
 module.exports = { 
     initialize, 
     getAllSets, 
     getSetByNum, 
     getSetsByTheme,
-    addSet, // Assuming you already have this
-    editSet, // Assuming you already have this
-    deleteSet // Add this line
+    addSet,
+    getAllThemes,
+    editSet,
+    deleteSet
 };
-
-// Export functions
-module.exports = { initialize, getAllSets, getSetByNum, getSetsByTheme, addSet, getAllThemes, editSet };

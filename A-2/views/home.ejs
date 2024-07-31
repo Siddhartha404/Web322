@@ -16,27 +16,15 @@
             <a href="/lego/sets" class="bg-blue-500 text-white py-2 px-4 rounded-md shadow-md hover:bg-blue-600 transition duration-200">View All Sets</a>
         </div>
         <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mt-8">
-            <!-- Lego Set Card 1 -->
-            <div class="bg-white rounded-md shadow-md p-4 flex flex-col justify-between">
-                <img src="https://cdn.rebrickable.com/media/sets/001-1.jpg" alt="Lego Set Image" class="h-48 w-full object-cover rounded-md mb-2">
-                <h2 class="text-xl font-semibold">Gears</h2>
-                <p class="text-gray-500">Released in 1965</p>
-                <a href="/lego/sets/001-1" class="border border-blue-500 text-blue-500 py-2 px-4 rounded-md shadow-md hover:bg-blue-50 hover:text-blue-600 transition duration-200 mt-2">View Details</a>
-            </div>
-            <!-- Lego Set Card 2 -->
-            <div class="bg-white rounded-md shadow-md p-4 flex flex-col justify-between">
-                <img src="https://cdn.rebrickable.com/media/sets/002253963-1.jpg" alt="Lego Set Image" class="h-48 w-full object-cover rounded-md mb-2">
-                <h2 class="text-xl font-semibold">Legend of Chima: Corbeaux et Gorilles</h2>
-                <p class="text-gray-500">Released in 2013</p>
-                <a href="/lego/sets/002253963-1" class="border border-blue-500 text-blue-500 py-2 px-4 rounded-md shadow-md hover:bg-blue-50 hover:text-blue-600 transition duration-200 mt-2">View Details</a>
-            </div>
-            <!-- Lego Set Card 3 -->
-            <div class="bg-white rounded-md shadow-md p-4 flex flex-col justify-between">
-                <img src="https://cdn.rebrickable.com/media/sets/003-1.jpg" alt="Lego Set Image" class="h-48 w-full object-cover rounded-md mb-2">
-                <h2 class="text-xl font-semibold">Master Mechanic Set</h2>
-                <p class="text-gray-500">Released in 1966</p>
-                <a href="/lego/sets/003-1" class="border border-blue-500 text-blue-500 py-2 px-4 rounded-md shadow-md hover:bg-blue-50 hover:text-blue-600 transition duration-200 mt-2">View Details</a>
-            </div>
+            <!-- Loop through sets and create a card for each -->
+            <% sets.forEach(set => { %>
+                <div class="bg-white rounded-md shadow-md p-4 flex flex-col justify-between">
+                    <img src="<%= set.img_url %>" alt="<%= set.name %>" class="h-48 w-full object-cover rounded-md mb-2">
+                    <h2 class="text-xl font-semibold"><%= set.name %></h2>
+                    <p class="text-gray-500">Released in <%= set.year %></p>
+                    <a href="/lego/sets/<%= set.set_num %>" class="border border-blue-500 text-blue-500 py-2 px-4 rounded-md shadow-md hover:bg-blue-50 hover:text-blue-600 transition duration-200 mt-2">View Details</a>
+                </div>
+            <% }); %>
         </div>
     </div>
 </body>

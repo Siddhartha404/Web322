@@ -1,5 +1,6 @@
 <!-- set.ejs -->
-
+<link rel="stylesheet" href="../public/css/main.css">
+<link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
 <%- include('partials/navbar', { page: '' }) %>
 
 <div class="container mx-auto my-8">
@@ -8,9 +9,13 @@
         <p class="text-gray-600 mb-2">Below, you will find detailed information about the set:</p>
         <img src="<%= set.img_url %>" alt="<%= set.name %>" class="rounded-lg mb-4">
         <p class="text-gray-600 mb-2">Year: <%= set.year %></p>
-        <p class="text-gray-600 mb-2">Theme: <%= set.theme %></p>
+        <p class="text-gray-600 mb-2">Theme: <%= set.Theme.name %></p>
         <p class="text-gray-600 mb-2">Parts: <%= set.num_parts %></p>
-        <a href="#" onclick="history.back(); return false;" class="px-4 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600">Back</a>
+        
+        <!-- Edit Set Button -->
+        <a href="/lego/editSet/<%= set.set_num %>" class="px-4 py-2 bg-green-500 text-white rounded-lg hover:bg-green-600">Edit Set: <%= set.name %></a>
+        
+        <a href="#" onclick="history.back(); return false;" class="px-4 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600 mt-4 inline-block">Back</a>
     </div>
 </div>
 

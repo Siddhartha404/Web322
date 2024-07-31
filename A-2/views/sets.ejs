@@ -1,7 +1,6 @@
 <!-- sets.ejs -->
 <link rel="stylesheet" href="../public/css/main.css">
 <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
-<!-- sets.ejs -->
 
 <%- include('partials/navbar', { page: page }) %>
 
@@ -23,8 +22,8 @@
                 <img src="<%= set.img_url %>" alt="<%= set.name %>" class="rounded-lg mb-4">
                 <h2 class="text-xl font-semibold mb-2"><%= set.name %></h2>
                 <p class="text-gray-600 mb-2">Theme: 
-                    <a href="/lego/sets?theme=<%= encodeURIComponent(set.theme) %>" class="px-4 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600">
-                        <%= set.theme %>
+                    <a href="/lego/sets?theme=<%= encodeURIComponent(set.Theme.name) %>" class="px-4 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600">
+                        <%= set.Theme.name %>
                     </a>
                 </p>
                 <p class="text-gray-600 mb-2">Year: <%= set.year %></p>

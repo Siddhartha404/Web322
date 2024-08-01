@@ -19,7 +19,7 @@ const PORT = process.env.PORT || 3000;
 
 // Set view engine to EJS and configure views directory
 app.set('view engine', 'ejs');
-app.set('views', path.join(__dirname, 'views'));
+app.set('views', path.join(__dirname, '/views'));
 
 // Serve static files from the "public" directory
 app.use(express.static('public'));
@@ -44,7 +44,7 @@ app.get('/', (req, res) => {
         .then((sets) => {
             // Show only 3 sets
             const limitedSets = sets.slice(0, 3);
-            res.render('home', { sets: limitedSets, page: '/views/' });
+            res.render('home', { sets: limitedSets, page: '/' });
         })
         .catch((err) => {
             res.status(500).render('500', { message: `I'm sorry, but we have encountered the following error: ${err}` });

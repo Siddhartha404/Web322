@@ -17,7 +17,9 @@ const legoData = require('./modules/legoSets');
 const app = express();
 const PORT = process.env.PORT || 3000;
 
+// Set view engine to EJS and configure views directory
 app.set('view engine', 'ejs');
+app.set('views', path.join(__dirname, 'views'));
 
 // Serve static files from the "public" directory
 app.use(express.static('public'));
@@ -142,7 +144,7 @@ app.post('/lego/editSet', (req, res) => {
         });
 });
 
-//deleting
+// Route for deleting a set
 app.get('/lego/deleteSet/:num', (req, res) => {
     const setNum = req.params.num;
     legoData.deleteSet(setNum)

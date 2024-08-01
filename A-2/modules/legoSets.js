@@ -171,15 +171,5 @@ function deleteSet(setNum) {
     });
 }
 
-module.exports = { 
-    initialize, 
-    getAllSets, 
-    getSetByNum, 
-    getSetsByTheme,
-    addSet, 
-    editSet, 
-    deleteSet 
-};
-
 // Export functions
 module.exports = { initialize, getAllSets, getSetByNum, getSetsByTheme, addSet, getAllThemes, editSet };

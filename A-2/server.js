@@ -17,7 +17,6 @@ const legoData = require('./modules/legoSets');
 const app = express();
 const PORT = process.env.PORT || 3000;
 
-// Set the view engine to ejs
 app.set('view engine', 'ejs');
 
 // Serve static files from the "public" directory

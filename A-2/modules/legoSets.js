@@ -7,6 +7,7 @@ const Sequelize = require('sequelize');
 const sequelize = new Sequelize(process.env.DB_DATABASE, process.env.DB_USER, process.env.DB_PASSWORD, {
     host: process.env.DB_HOST,
     dialect: 'postgres',
+    dialectModule: pg,
     logging: console.log,
     dialectOptions: {
         ssl: {
@@ -175,9 +176,9 @@ module.exports = {
     getAllSets, 
     getSetByNum, 
     getSetsByTheme,
-    addSet, // Assuming you already have this
-    editSet, // Assuming you already have this
-    deleteSet // Add this line
+    addSet, 
+    editSet, 
+    deleteSet 
 };
 
 // Export functions

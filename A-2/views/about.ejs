@@ -3,28 +3,28 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="About page of Siddhartha Thapa Chhetri, a computer programming student at Seneca College.">
+    <meta name="author" content="Siddhartha Thapa Chhetri">
     <title>About</title>
-    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
     <link rel="stylesheet" href="/css/main.css" />
     <script src="https://cdn.jsdelivr.net/npm/alpinejs@2.x.x/dist/alpine.min.js" defer></script>
-
-
-    <body class="bg-gray-100">
-        <%- include('partials/navbar', { page: '/' }) %>
-        <div class="container mx-auto p-4">
+</head>
+<body class="bg-gray-100">
+    <%- include('partials/navbar', { page: '/' }) %>
+    <div class="container mx-auto p-4">
         <div class="hero py-12">
-            <h1 class="text-4xl font-bold">About Me</h1>
-            <p class="text-lg mt-4">Hi, my my name is Siddhartha Thapa Chhetri</p>
-            <p class="text-lg mt-4">I'm currently studying computer programming at Seneca College, where I'm honing my skills in HTML, CSS, JavaScript, and various frameworks. I have a keen interest in creating interactive and user-friendly web applications.
-            </p>
+            <h1 class="text-4xl font-bold mb-4">About Me</h1>
         </div>
-        <div class="grid grid-cols-2 gap-4 mt-8">
+        <div>
+            <p class="text-lg mb-4">Hi, my name is Siddhartha Thapa Chhetri</p>
+            <p class="text-lg mb-8">I'm currently studying computer programming at Seneca College, where I'm honing my skills in HTML, CSS, JavaScript, and various frameworks. I have a keen interest in creating interactive and user-friendly web applications.</p>
+        </div>
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mt-8">
             <div>
                 <img src="https://preview.redd.it/4vmwfbbdeus21.jpg?auto=webp&s=5484a341c1c1bf1de211df153b22136eed4c154f" alt="Profile Pic" class="rounded-full h-48 w-48 object-cover mx-auto">
             </div>
             <div>
-                <p class="text-lg">This website is dedicated to showcasing an extensive collection of Lego sets from various themes and eras. Whether you're a seasoned Lego builder or new to the hobby, our goal is to provide a comprehensive and enjoyable resource for Lego enthusiasts of all ages.
-                </p>
+                <p class="text-lg">This website is dedicated to showcasing an extensive collection of Lego sets from various themes and eras. Whether you're a seasoned Lego builder or new to the hobby, our goal is to provide a comprehensive and enjoyable resource for Lego enthusiasts of all ages.</p>
             </div>
         </div>
     </div>

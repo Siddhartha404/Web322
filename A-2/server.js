@@ -44,7 +44,7 @@ app.get('/', (req, res) => {
         .then((sets) => {
             // Show only 3 sets
             const limitedSets = sets.slice(0, 3);
-            res.render('home', { sets: limitedSets, page: '/' });
+            res.render('home', { sets: limitedSets, page: '/views/' });
         })
         .catch((err) => {
             res.status(500).render('500', { message: `I'm sorry, but we have encountered the following error: ${err}` });

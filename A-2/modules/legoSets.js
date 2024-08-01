@@ -11,7 +11,7 @@ const sequelize = new Sequelize(process.env.DB_DATABASE, process.env.DB_USER, pr
     dialectOptions: {
         ssl: {
             require: true, // This ensures SSL is used
-            rejectUnauthorized: false // This is needed for self-signed certificates, but should be used with caution
+            rejectUnauthorized: false
         }
     }
 });
@@ -153,7 +153,6 @@ function editSet(set_num, setData) {
         return Promise.reject("Error updating set: " + error.errors[0].message);
     });
 }
-
 // Delete a set by its number
 function deleteSet(setNum) {
     return Set.destroy({
@@ -171,14 +170,15 @@ function deleteSet(setNum) {
     });
 }
 
-// Export functions
 module.exports = { 
     initialize, 
     getAllSets, 
     getSetByNum, 
     getSetsByTheme,
-    addSet,
-    getAllThemes,
-    editSet,
-    deleteSet
+    addSet, // Assuming you already have this
+    editSet, // Assuming you already have this
+    deleteSet // Add this line
 };
+
+// Export functions
+module.exports = { initialize, getAllSets, getSetByNum, getSetsByTheme, addSet, getAllThemes, editSet };

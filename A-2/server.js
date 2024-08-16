@@ -1,3 +1,17 @@
+/********************************************************************************
+*  WEB322 – Assignment 06
+* 
+*  I declare that this assignment is my own work in accordance with Seneca's
+*  Academic Integrity Policy:
+* 
+*  https://www.senecacollege.ca/about/policies/academic-integrity-policy.html
+* 
+*  Name: Siddhartha Thapa Chhetri Student ID: 147913222 Date: 2024-08-16
+*
+*  Published URL: https://web322-jet.vercel.app/
+*
+********************************************************************************/
+
 const express = require('express');
 const path = require('path');
 const legoData = require('./modules/legoSets');

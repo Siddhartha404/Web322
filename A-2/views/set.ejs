@@ -1,39 +1,54 @@
-<!-- set.ejs -->
-<link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
-<link rel="stylesheet" href="/css/main.css" />
-<%- include('partials/navbar', { page: '' }) %>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LEGO Set</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="/css/main.css" />
+    <script src="https://cdn.jsdelivr.net/npm/alpinejs@2.x.x/dist/alpine.min.js" defer></script>
+</head>
+<body class="bg-gray-100">
+    <%- include('partials/navbar', { page: '/lego/sets' }) %>
 
-<div class="container mx-auto my-8">
-    <div class="p-4 border rounded-lg">
-        <h1 class="text-2xl font-semibold mb-4"><%= set.name %></h1>
-        <p class="text-gray-600 mb-2">Below, you will find detailed information about the set:</p>
-        <img src="<%= set.img_url %>" alt="<%= set.name %>" class="rounded-lg mb-4">
-        <p class="text-gray-600 mb-2">Year: <%= set.year %></p>
-        <p class="text-gray-600 mb-2">Theme: <%= set.Theme.name %></p>
-        <p class="text-gray-600 mb-2">Parts: <%= set.num_parts %></p>
-        
-        <!-- Edit Set Button -->
-        <a href="/lego/editSet/<%= set.set_num %>" class="px-4 py-2 bg-green-500 text-white rounded-lg hover:bg-green-600">Edit Set: <%= set.name %></a>
-        
-        <a href="#" onclick="history.back(); return false;" class="px-4 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600 mt-4 inline-block">Back</a>
+    <div class="container mx-auto my-8 p-4">
+        <div class="bg-white border rounded-lg p-6 shadow-md">
+            <h1 class="text-3xl font-bold mb-4">LEGO Set Details</h1>
+            <p class="text-gray-600 mb-2">Set Name: <%= set.name %></p>
+            <img src="<%= set.img_url %>" alt="Image of <%= set.name %>" class="w-full h-auto rounded-lg mb-4">
+            <p class="text-gray-600 mb-2">Year: <%= set.year %></p>
+            <p class="text-gray-600 mb-2">Theme: <%= set.Theme.name %></p>
+            <p class="text-gray-600 mb-4">Parts: <%= set.num_parts %></p>
+
+            <!-- Conditional Edit Set Button -->
+            <% if (session.user) { %>
+                <a href="/lego/editSet/<%= set.set_num %>" class="bg-green-500 text-white py-2 px-4 rounded-lg shadow-md hover:bg-green-600 transition duration-200">Edit Set</a>
+            <% } %>
+
+            <a href="#" onclick="history.back(); return false;" class="bg-blue-500 text-white py-2 px-4 rounded-lg shadow-md hover:bg-blue-600 transition duration-200 mt-4 inline-block">Back</a>
+        </div>
     </div>
-</div>
 
-<!-- Fetching and displaying quote -->
-<script>
-    document.addEventListener("DOMContentLoaded", () => {
-        fetch('https://quotable.io/random')
-            .then(response => response.json())
-            .then(data => {
-                const quoteElement = document.getElementById('quote');
-                quoteElement.innerHTML = `"${data.content}" - ${data.author}`;
-            })
-            .catch(error => console.error('Error fetching quote:', error));
-    });
-</script>
-
-<div class="container mx-auto my-8">
-    <div class="p-4 border rounded-lg">
-        <p id="quote" class="text-gray-600 mb-4"></p>
+    <!-- Fetching and displaying quote -->
+    <div class="container mx-auto my-8 p-4">
+        <div class="bg-white border rounded-lg p-6 shadow-md">
+            <p id="quote" class="text-gray-600 mb-4">Loading quote...</p>
+        </div>
     </div>
-</div>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", () => {
+            const quoteElement = document.getElementById('quote');
+            fetch('https://quotable.io/random')
+                .then(response => response.json())
+                .then(data => {
+                    quoteElement.innerHTML = `"${data.content}" - ${data.author}`;
+                })
+                .catch(error => {
+                    console.error('Error fetching quote:', error);
+                    quoteElement.innerHTML = 'Failed to fetch quote. Please try again later.';
+                });
+        });
+    </script>
+</body>
+</html>

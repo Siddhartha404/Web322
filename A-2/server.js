@@ -1,25 +1,49 @@
-/********************************************************************************
-*  WEB322 – Assignment 05
-* 
-*  I declare that this assignment is my own work in accordance with Seneca's
-*  Academic Integrity Policy:
-* 
-*  https://www.senecacollege.ca/about/policies/academic-integrity-policy.html
-* 
-*  Name: Siddhartha Thapa Chhetri Student ID: 147913222 Date: 2024/07/31
-*
-********************************************************************************/
-
 const express = require('express');
 const path = require('path');
 const legoData = require('./modules/legoSets');
+const authData = require('./modules/auth-service');
+const clientSessions = require('client-sessions');
 
 const app = express();
-const PORT = process.env.PORT || 3000;
+const HTTP_PORT = process.env.PORT || 3000;
+
+// Configure client-sessions middleware
+app.use(clientSessions({
+    cookieName: 'session',
+    secret: 'your-secret-key', // Replace with a strong secret
+    duration: 24 * 60 * 60 * 1000, // 24 hours
+    activeDuration: 30 * 60 * 1000 // 30 minutes
+}));
+
+// Custom middleware to expose session object to templates
+app.use((req, res, next) => {
+    res.locals.session = req.session;
+    next();
+});
+
+// Ensure user is logged in middleware
+function ensureLogin(req, res, next) {
+    if (!req.session.user) {
+        return res.redirect('/login');
+    }
+    next();
+}
+
+// Initialize legoData and authData, then start the server
+legoData.initialize()
+    .then(authData.initialize)
+    .then(() => {
+        app.listen(HTTP_PORT, () => {
+            console.log(`App listening on port ${HTTP_PORT}`);
+        });
+    })
+    .catch((err) => {
+        console.log(`Unable to start server: ${err}`);
+    });
 
 // Set view engine to EJS and configure views directory
 app.set('view engine', 'ejs');
-app.set('views', path.join(__dirname, '/views'));
+app.set('views', path.join(__dirname, 'views'));
 
 // Serve static files from the "public" directory
 app.use(express.static('public'));
@@ -27,22 +51,10 @@ app.use(express.static('public'));
 // Middleware for parsing URL-encoded form data
 app.use(express.urlencoded({ extended: true }));
 
-// Initialize legoData and start the server
-legoData.initialize()
-    .then(() => {
-        app.listen(PORT, () => {
-            console.log(`Server is listening on port ${PORT}`);
-        });
-    })
-    .catch((err) => {
-        console.error('Failed to initialize legoData:', err);
-    });
-
 // Route for home page
 app.get('/', (req, res) => {
-    legoData.getAllSets()  // Fetch all sets from the database
+    legoData.getAllSets()
         .then((sets) => {
-            // Show only 3 sets
             const limitedSets = sets.slice(0, 3);
             res.render('home', { sets: limitedSets, page: '/' });
         })
@@ -91,7 +103,7 @@ app.get('/lego/sets/:set_num', (req, res) => {
 });
 
 // Route for rendering the addSet form
-app.get('/lego/addSet', (req, res) => {
+app.get('/lego/addSet', ensureLogin, (req, res) => {
     legoData.getAllThemes()
         .then((themes) => {
             res.render('addSet', { themes: themes, page: '/lego/addSet' });
@@ -102,7 +114,7 @@ app.get('/lego/addSet', (req, res) => {
 });
 
 // Route for handling form submission for adding a set
-app.post('/lego/addSet', (req, res) => {
+app.post('/lego/addSet', ensureLogin, (req, res) => {
     legoData.addSet(req.body)
         .then(() => {
             res.redirect('/lego/sets');
@@ -113,7 +125,7 @@ app.post('/lego/addSet', (req, res) => {
 });
 
 // Route for rendering the editSet form
-app.get('/lego/editSet/:num', (req, res) => {
+app.get('/lego/editSet/:num', ensureLogin, (req, res) => {
     const setNum = req.params.num;
     Promise.all([legoData.getSetByNum(setNum), legoData.getAllThemes()])
         .then(([set, themes]) => {
@@ -125,7 +137,7 @@ app.get('/lego/editSet/:num', (req, res) => {
 });
 
 // Route for handling form submission for editing a set
-app.post('/lego/editSet', (req, res) => {
+app.post('/lego/editSet', ensureLogin, (req, res) => {
     const setNum = req.body.set_num;
     const setData = {
         name: req.body.name,
@@ -145,7 +157,7 @@ app.post('/lego/editSet', (req, res) => {
 });
 
 // Route for deleting a set
-app.get('/lego/deleteSet/:num', (req, res) => {
+app.get('/lego/deleteSet/:num', ensureLogin, (req, res) => {
     const setNum = req.params.num;
     legoData.deleteSet(setNum)
         .then(() => {
@@ -156,7 +168,61 @@ app.get('/lego/deleteSet/:num', (req, res) => {
         });
 });
 
-// Route for custom 404 page
+// Route for user registration
+app.get('/register', (req, res) => {
+    const { errorMessage, successMessage, userName } = req.query;
+    res.render('register', {
+        errorMessage: errorMessage || null,
+        successMessage: successMessage || null,
+        userName: userName || ''
+    });
+});
+
+
+app.post('/register', (req, res) => {
+    authData.registerUser(req.body)
+        .then(() => {
+            res.redirect('/register?successMessage=User created');
+        })
+        .catch((err) => {
+            res.redirect(`/register?errorMessage=${encodeURIComponent(err.message)}&userName=${encodeURIComponent(req.body.userName)}`);
+        });
+});
+
+
+// Route for user login
+app.get('/login', (req, res) => {
+    res.render('login', { errorMessage: req.query.errorMessage });
+});
+
+app.post('/login', (req, res) => {
+    req.body.userAgent = req.get('User-Agent');
+    authData.checkUser(req.body)
+        .then((user) => {
+            req.session.user = {
+                userName: user.userName,
+                email: user.email,
+                loginHistory: user.loginHistory
+            };
+            res.redirect('/lego/sets');
+        })
+        .catch((err) => {
+            res.redirect(`/login?errorMessage=${err}&userName=${req.body.userName}`);
+        });
+});
+
+// Route for user logout
+app.get('/logout', (req, res) => {
+    req.session.reset();
+    res.redirect('/');
+});
+
+// Route for user history
+app.get('/userHistory', ensureLogin, (req, res) => {
+    res.render('userHistory', { loginHistory: req.session.user.loginHistory });
+});
+
+// Custom 404 page
 app.use((req, res) => {
     res.status(404).render('404', { message: "I'm sorry, we're unable to find what you're looking for", page: '' });
 });
